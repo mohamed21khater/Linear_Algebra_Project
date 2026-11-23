@@ -1,0 +1,17 @@
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\bin\Debug\net9.0\LinearAlgebra.Infrastructure.deps.json
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\bin\Debug\net9.0\LinearAlgebra.Infrastructure.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\bin\Debug\net9.0\LinearAlgebra.Infrastructure.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\bin\Debug\net9.0\LinearAlgebra.Application.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\bin\Debug\net9.0\LinearAlgebra.Domain.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\bin\Debug\net9.0\LinearAlgebra.Domain.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\bin\Debug\net9.0\LinearAlgebra.Application.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\LinearAlgebra.Infrastructure.csproj.AssemblyReference.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\LinearAlgebra.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\LinearAlgebra.Infrastructure.AssemblyInfoInputs.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\LinearAlgebra.Infrastructure.AssemblyInfo.cs
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\LinearAlgebra.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\LinearAl.C259F4B5.Up2Date
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\LinearAlgebra.Infrastructure.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\refint\LinearAlgebra.Infrastructure.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\LinearAlgebra.Infrastructure.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Infrastructure\obj\Debug\net9.0\ref\LinearAlgebra.Infrastructure.dll

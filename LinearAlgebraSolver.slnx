@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="LinearAlgebra.Application/LinearAlgebra.Application.csproj" />
+  <Project Path="LinearAlgebra.Domain/LinearAlgebra.Domain.csproj" />
+  <Project Path="LinearAlgebra.Infrastructure/LinearAlgebra.Infrastructure.csproj" />
+  <Project Path="LinearAlgebra.PdfExport/LinearAlgebra.PdfExport.csproj" />
+  <Project Path="LinearAlgebra.Tests/LinearAlgebra.Tests.csproj" />
+  <Project Path="LinearAlgebra.UI/LinearAlgebra.UI.csproj" />
+</Solution>

@@ -1,0 +1,793 @@
+<Window x:Class="LinearAlgebra.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Linear Algebra Solver"
+        Height="820" Width="1200"
+        MinHeight="650" MinWidth="950"
+        Background="#0A0A0A"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+
+        <!-- ══════════════════════ COLOR PALETTE (Red & Black) ══════════════════════ -->
+        <SolidColorBrush x:Key="BgBase"      Color="#0A0A0A"/>
+        <SolidColorBrush x:Key="BgPanel"     Color="#141414"/>
+        <SolidColorBrush x:Key="BgCard"      Color="#1C1C1C"/>
+        <SolidColorBrush x:Key="BgInput"     Color="#111111"/>
+        <SolidColorBrush x:Key="AccentRed"   Color="#D72638"/>
+        <SolidColorBrush x:Key="AccentRedHi" Color="#FF3347"/>
+        <SolidColorBrush x:Key="AccentRedDim" Color="#8B1520"/>
+        <SolidColorBrush x:Key="TextMain"    Color="#F0F0F0"/>
+        <SolidColorBrush x:Key="TextSub"     Color="#888888"/>
+        <SolidColorBrush x:Key="TextDim"     Color="#444444"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#2A2A2A"/>
+        <SolidColorBrush x:Key="BorderHot"   Color="#D72638"/>
+
+        <!-- ══════════════════════ MATRIX TEXTBOX ══════════════════════ -->
+        <Style x:Key="MatrixBox" TargetType="TextBox">
+            <Setter Property="Background"                      Value="#0D0D0D"/>
+            <Setter Property="Foreground"                      Value="#F0F0F0"/>
+            <Setter Property="CaretBrush"                      Value="#D72638"/>
+            <Setter Property="BorderBrush"                     Value="#2A2A2A"/>
+            <Setter Property="BorderThickness"                 Value="1"/>
+            <Setter Property="Padding"                         Value="10"/>
+            <Setter Property="FontFamily"                      Value="Consolas, Courier New"/>
+            <Setter Property="FontSize"                        Value="14"/>
+            <Setter Property="AcceptsReturn"                   Value="True"/>
+            <Setter Property="VerticalScrollBarVisibility"     Value="Auto"/>
+            <Setter Property="HorizontalScrollBarVisibility"   Value="Auto"/>
+            <Setter Property="SelectionBrush"                  Value="#D72638"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Margin="{TemplateBinding Padding}"
+                                          VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}"
+                                          HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D72638"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D72638"/>
+                                <Setter TargetName="Bd" Property="Background"  Value="#121212"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ══════════════════════ PRIMARY BUTTON (Red) ══════════════════════ -->
+        <Style x:Key="PrimaryBtn" TargetType="Button">
+            <Setter Property="Background"      Value="#D72638"/>
+            <Setter Property="Foreground"      Value="#FFFFFF"/>
+            <Setter Property="FontWeight"      Value="Bold"/>
+            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="Padding"         Value="20,9"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#FF3347"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#8B1520"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Background" Value="#3A1018"/>
+                                <Setter Property="Foreground" Value="#666666"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ══════════════════════ GHOST BUTTON (outline) ══════════════════════ -->
+        <Style x:Key="GhostBtn" TargetType="Button">
+            <Setter Property="Background"      Value="Transparent"/>
+            <Setter Property="Foreground"      Value="#888888"/>
+            <Setter Property="FontSize"        Value="12"/>
+            <Setter Property="Padding"         Value="12,6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush"     Value="#2A2A2A"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D72638"/>
+                                <Setter Property="Foreground" Value="#D72638"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#1A0608"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ══════════════════════ OPERATION BUTTON (sidebar) ══════════════════════ -->
+        <Style x:Key="OpBtn" TargetType="RadioButton">
+            <Setter Property="Background"      Value="Transparent"/>
+            <Setter Property="Foreground"      Value="#888888"/>
+            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="FontFamily"      Value="Segoe UI, Arial"/>
+            <Setter Property="Padding"         Value="14,10"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="0,0,0,0"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}"
+                                Margin="0,2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <!-- Red left indicator bar -->
+                                <Border x:Name="Indicator"
+                                        Grid.Column="0"
+                                        Width="4" CornerRadius="2"
+                                        Background="Transparent" Margin="0,4"/>
+                                <ContentPresenter Grid.Column="1"
+                                                  Margin="10,0,0,0"
+                                                  VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd"        Property="Background" Value="#1C1C1C"/>
+                                <Setter Property="Foreground"  Value="#F0F0F0"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd"        Property="Background" Value="#1C1C1C"/>
+                                <Setter TargetName="Indicator" Property="Background" Value="#D72638"/>
+                                <Setter Property="Foreground"  Value="#FFFFFF"/>
+                                <Setter Property="FontWeight"  Value="SemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ══════════════════════ FIELD LABEL ══════════════════════ -->
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#666666"/>
+            <Setter Property="FontSize"   Value="11"/>
+            <Setter Property="Margin"     Value="0,0,0,5"/>
+            <Setter Property="FontFamily" Value="Segoe UI, Arial"/>
+        </Style>
+
+        <!-- ══════════════════════ SECTION TITLE ══════════════════════ -->
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="Foreground"  Value="#F0F0F0"/>
+            <Setter Property="FontSize"    Value="16"/>
+            <Setter Property="FontWeight"  Value="SemiBold"/>
+            <Setter Property="FontFamily"  Value="Segoe UI, Arial"/>
+            <Setter Property="Margin"      Value="0,0,0,4"/>
+        </Style>
+
+        <!-- ══════════════════════ HISTORY LISTBOX ITEM ══════════════════════ -->
+        <Style x:Key="HistoryItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding"    Value="0"/>
+            <Setter Property="Margin"     Value="0,1"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="5"
+                                Padding="10,7"
+                                Margin="0,1">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#1C1C1C"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#200810"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#D72638"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <!-- ══════════════════════════════════════════════════════════════════════
+         ROOT GRID: Header | Body | History | StatusBar
+    ══════════════════════════════════════════════════════════════════════ -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/>        <!-- Header -->
+            <RowDefinition Height="*"/>         <!-- Main body -->
+            <RowDefinition Height="5"/>         <!-- Splitter -->
+            <RowDefinition Height="180"/>       <!-- History panel -->
+            <RowDefinition Height="28"/>        <!-- Status bar -->
+        </Grid.RowDefinitions>
+
+        <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+        <Border Grid.Row="0"
+                Background="#0D0D0D"
+                BorderThickness="0,0,0,1"
+                BorderBrush="#1E1E1E">
+            <Grid Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo + Title -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="32" Height="32"
+                            Background="#D72638" CornerRadius="6"
+                            Margin="0,0,12,0">
+                        <TextBlock Text="∑" Foreground="White" FontSize="18"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="LINEAR ALGEBRA SOLVER"
+                                   Foreground="#F0F0F0"
+                                   FontSize="14" FontWeight="Bold"
+                                   FontFamily="Segoe UI, Arial"
+/>
+                        <TextBlock Text="Exact Fraction Arithmetic · Step-by-Step Solutions"
+                                   Foreground="#444444"
+                                   FontSize="10"
+                                   FontFamily="Segoe UI, Arial"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Clock -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <TextBlock x:Name="ClockText"
+                               Foreground="#444444" FontSize="12"
+                               FontFamily="Consolas"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════════ MAIN BODY ════════════════════════════ -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220" MinWidth="180"/>   <!-- Sidebar -->
+                <ColumnDefinition Width="1"/>                     <!-- Divider -->
+                <ColumnDefinition Width="*" MinWidth="320"/>      <!-- Input area -->
+                <ColumnDefinition Width="1"/>                     <!-- Divider -->
+                <ColumnDefinition Width="*" MinWidth="320"/>      <!-- Output area -->
+            </Grid.ColumnDefinitions>
+
+            <!-- ─────────────────────────── SIDEBAR ─────────────────────────── -->
+            <Border Grid.Column="0" Background="#0D0D0D">
+                <StackPanel Margin="10,16,10,16">
+
+                    <TextBlock Text="OPERATIONS"
+                               Foreground="#444444" FontSize="10"
+                               FontWeight="Bold" FontFamily="Segoe UI"
+                               Margin="14,0,0,10"
+/>
+
+                    <RadioButton x:Name="BtnNavGauss"
+                                 Style="{StaticResource OpBtn}"
+                                 IsChecked="True"
+                                 Checked="NavBtn_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⊞" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="Gauss-Jordan" FontSize="13"/>
+                                <TextBlock Text="Linear Systems" FontSize="10" Foreground="#666666"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton x:Name="BtnNavDet"
+                                 Style="{StaticResource OpBtn}"
+                                 Checked="NavBtn_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="▦" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="Determinant" FontSize="13"/>
+                                <TextBlock Text="det(A)" FontSize="10" Foreground="#666666"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton x:Name="BtnNavInv"
+                                 Style="{StaticResource OpBtn}"
+                                 Checked="NavBtn_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⁻¹" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="Inverse" FontSize="13"/>
+                                <TextBlock Text="A⁻¹" FontSize="10" Foreground="#666666"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton x:Name="BtnNavTranspose"
+                                 Style="{StaticResource OpBtn}"
+                                 Checked="NavBtn_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⟂" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="Transpose" FontSize="13"/>
+                                <TextBlock Text="Aᵀ" FontSize="10" Foreground="#666666"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton x:Name="BtnNavRank"
+                                 Style="{StaticResource OpBtn}"
+                                 Checked="NavBtn_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="ρ" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="Rank" FontSize="13"/>
+                                <TextBlock Text="rank(A)" FontSize="10" Foreground="#666666"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton x:Name="BtnNavMatOps"
+                                 Style="{StaticResource OpBtn}"
+                                 Checked="NavBtn_Checked">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⊕" FontSize="14" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <StackPanel>
+                                <TextBlock Text="Matrix Ops" FontSize="13"/>
+                                <TextBlock Text="A+B  A-B  A×B" FontSize="10" Foreground="#666666"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <!-- Divider -->
+                    <Border Height="1" Background="#1E1E1E" Margin="4,16"/>
+
+                    <!-- Quick format hint -->
+                    <Border Background="#100408" CornerRadius="6"
+                            BorderBrush="#2A0810" BorderThickness="1"
+                            Padding="10,8" Margin="0,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="FORMAT HINT"
+                                       Foreground="#D72638" FontSize="9"
+                                       FontWeight="Bold" Margin="0,0,0,5"
+/>
+                            <TextBlock TextWrapping="Wrap"
+                                       Foreground="#666666" FontSize="11"
+                                       FontFamily="Consolas"
+                                       Text="1 2 3&#x0a;4 5 6&#x0a;7 8 9&#x0a;&#x0a;One row per line&#x0a;Space or comma&#x0a;Fractions: 1/2"/>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </Border>
+
+            <!-- Vertical divider line -->
+            <Border Grid.Column="1" Background="#1E1E1E"/>
+
+            <!-- ─────────────────────── INPUT PANEL ─────────────────────── -->
+            <Grid Grid.Column="2" Background="#0F0F0F">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Panel top bar -->
+                <Border Grid.Row="0" Background="#0D0D0D"
+                        BorderThickness="0,0,0,1" BorderBrush="#1E1E1E"
+                        Padding="20,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock x:Name="InputPanelTitle"
+                                       Text="Linear System  [A | b]"
+                                       Style="{StaticResource SectionTitle}"/>
+                            <TextBlock x:Name="InputPanelHint"
+                                       Text="Augmented matrix — last column is the RHS (b)"
+                                       Style="{StaticResource FieldLabel}"
+                                       Margin="0"/>
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="⟳  Clear"
+                                Style="{StaticResource GhostBtn}"
+                                VerticalAlignment="Center"
+                                Click="BtnClearInput_Click"/>
+                    </Grid>
+                </Border>
+
+                <!-- Input content (switched by ContentControl) -->
+                <ScrollViewer Grid.Row="1"
+                              VerticalScrollBarVisibility="Auto"
+                              Padding="20,16">
+                    <StackPanel x:Name="InputPanel">
+
+                        <!-- ── GAUSS INPUT ── -->
+                        <StackPanel x:Name="PanelGauss">
+                            <TextBlock Style="{StaticResource FieldLabel}"
+                                       Text="Enter each row on a new line. Separate values with spaces or commas."/>
+                            <TextBox x:Name="GaussMatrixInput"
+                                     Style="{StaticResource MatrixBox}"
+                                     Height="140"
+                                     Text="2 1 -1 8&#x0a;-3 -1 2 -11&#x0a;-2 1 2 -3"/>
+                            <Button Content="▶   Solve System"
+                                    Style="{StaticResource PrimaryBtn}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,14,0,0"
+                                    Click="BtnSolveGauss_Click"/>
+                        </StackPanel>
+
+                        <!-- ── DETERMINANT INPUT ── -->
+                        <StackPanel x:Name="PanelDet" Visibility="Collapsed">
+                            <TextBlock Style="{StaticResource FieldLabel}"
+                                       Text="Enter a square (n × n) matrix."/>
+                            <TextBox x:Name="DetMatrixInput"
+                                     Style="{StaticResource MatrixBox}"
+                                     Height="140"
+                                     Text="1 2 3&#x0a;4 5 6&#x0a;7 8 10"/>
+                            <Button Content="▶   Compute det(A)"
+                                    Style="{StaticResource PrimaryBtn}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,14,0,0"
+                                    Click="BtnDet_Click"/>
+                        </StackPanel>
+
+                        <!-- ── INVERSE INPUT ── -->
+                        <StackPanel x:Name="PanelInv" Visibility="Collapsed">
+                            <TextBlock Style="{StaticResource FieldLabel}"
+                                       Text="Enter a square (n × n) matrix to invert."/>
+                            <TextBox x:Name="InvMatrixInput"
+                                     Style="{StaticResource MatrixBox}"
+                                     Height="140"
+                                     Text="1 2&#x0a;3 4"/>
+                            <Button Content="▶   Compute A⁻¹"
+                                    Style="{StaticResource PrimaryBtn}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,14,0,0"
+                                    Click="BtnInverse_Click"/>
+                        </StackPanel>
+
+                        <!-- ── TRANSPOSE INPUT ── -->
+                        <StackPanel x:Name="PanelTranspose" Visibility="Collapsed">
+                            <TextBlock Style="{StaticResource FieldLabel}"
+                                       Text="Enter any matrix (m × n)."/>
+                            <TextBox x:Name="TransposeInput"
+                                     Style="{StaticResource MatrixBox}"
+                                     Height="140"
+                                     Text="1 2 3&#x0a;4 5 6"/>
+                            <Button Content="▶   Transpose Aᵀ"
+                                    Style="{StaticResource PrimaryBtn}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,14,0,0"
+                                    Click="BtnTranspose_Click"/>
+                        </StackPanel>
+
+                        <!-- ── RANK INPUT ── -->
+                        <StackPanel x:Name="PanelRank" Visibility="Collapsed">
+                            <TextBlock Style="{StaticResource FieldLabel}"
+                                       Text="Enter any matrix to compute its rank."/>
+                            <TextBox x:Name="RankInput"
+                                     Style="{StaticResource MatrixBox}"
+                                     Height="140"
+                                     Text="1 2 3&#x0a;4 5 6&#x0a;7 8 9"/>
+                            <Button Content="▶   Compute Rank"
+                                    Style="{StaticResource PrimaryBtn}"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,14,0,0"
+                                    Click="BtnRank_Click"/>
+                        </StackPanel>
+
+                        <!-- ── MATRIX OPS INPUT ── -->
+                        <StackPanel x:Name="PanelMatOps" Visibility="Collapsed">
+                            <TextBlock Style="{StaticResource FieldLabel}" Text="Matrix A:"/>
+                            <TextBox x:Name="OpMatrixA"
+                                     Style="{StaticResource MatrixBox}"
+                                     Height="90"
+                                     Text="1 2&#x0a;3 4"/>
+                            <TextBlock Style="{StaticResource FieldLabel}"
+                                       Margin="0,14,0,5" Text="Matrix B:"/>
+                            <TextBox x:Name="OpMatrixB"
+                                     Style="{StaticResource MatrixBox}"
+                                     Height="90"
+                                     Text="5 6&#x0a;7 8"/>
+                            <WrapPanel Margin="0,14,0,0" HorizontalAlignment="Left">
+                                <Button Content="A + B"
+                                        Style="{StaticResource PrimaryBtn}"
+                                        Margin="0,0,8,0"
+                                        Click="BtnAdd_Click"/>
+                                <Button Content="A − B"
+                                        Style="{StaticResource PrimaryBtn}"
+                                        Margin="0,0,8,0"
+                                        Click="BtnSub_Click"/>
+                                <Button Content="A × B"
+                                        Style="{StaticResource PrimaryBtn}"
+                                        Click="BtnMul_Click"/>
+                            </WrapPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <!-- Vertical divider line -->
+            <Border Grid.Column="3" Background="#1E1E1E"/>
+
+            <!-- ─────────────────────── OUTPUT PANEL ─────────────────────── -->
+            <Grid Grid.Column="4" Background="#0F0F0F">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Output top bar -->
+                <Border Grid.Row="0" Background="#0D0D0D"
+                        BorderThickness="0,0,0,1" BorderBrush="#1E1E1E"
+                        Padding="20,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock x:Name="ResultTitle"
+                                       Text="Result"
+                                       Style="{StaticResource SectionTitle}"/>
+                            <TextBlock x:Name="ResultSubtitle"
+                                       Text="Run an operation to see the solution here"
+                                       Style="{StaticResource FieldLabel}"
+                                       Margin="0"/>
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="⎘  Copy"
+                                Style="{StaticResource GhostBtn}"
+                                VerticalAlignment="Center"
+                                Click="BtnCopyResult_Click"/>
+                    </Grid>
+                </Border>
+
+                <!-- Steps output -->
+                <Border Grid.Row="1" Background="#0A0A0A">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  Padding="20,16">
+                        <TextBox x:Name="StepsOutput"
+                                 Background="Transparent"
+                                 Foreground="#CCCCCC"
+                                 BorderThickness="0"
+                                 IsReadOnly="True"
+                                 FontFamily="Consolas, Courier New"
+                                 FontSize="13"
+                                 AcceptsReturn="True"
+                                 TextWrapping="NoWrap"
+                                 CaretBrush="#D72638"
+                                 Text="Run any operation on the left to see the step-by-step solution here."/>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- ═══════════════════════ HORIZONTAL SPLITTER ═══════════════════════ -->
+        <GridSplitter Grid.Row="2"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Background="#1E1E1E"
+                      Cursor="SizeNS"
+                      ResizeDirection="Rows"
+                      ResizeBehavior="PreviousAndNext"/>
+
+        <!-- ═══════════════════════ HISTORY PANEL (bottom) ═══════════════════ -->
+        <Border Grid.Row="3" Background="#0D0D0D"
+                BorderThickness="0,1,0,0" BorderBrush="#1E1E1E">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- History header bar -->
+                <Border Grid.Row="0"
+                        Background="#0A0A0A"
+                        BorderThickness="0,0,0,1" BorderBrush="#1A1A1A"
+                        Padding="16,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="4" Height="14" Background="#D72638"
+                                    CornerRadius="2" Margin="0,0,10,0"/>
+                            <TextBlock Text="HISTORY"
+                                       Foreground="#888888"
+                                       FontSize="11" FontWeight="Bold"
+                                       FontFamily="Segoe UI"
+
+                                       VerticalAlignment="Center"/>
+                            <Border x:Name="HistoryCountBadge"
+                                    Background="#1A0608"
+                                    CornerRadius="10"
+                                    Padding="6,1"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center">
+                                <TextBlock x:Name="HistoryCountText"
+                                           Text="0"
+                                           Foreground="#D72638"
+                                           FontSize="10" FontWeight="Bold"
+                                           FontFamily="Segoe UI"/>
+                            </Border>
+                        </StackPanel>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="Click any entry to reload its full solution"
+                                   Foreground="#333333" FontSize="11"
+                                   FontFamily="Segoe UI"
+                                   VerticalAlignment="Center"
+                                   Margin="16,0,0,0"/>
+
+                        <Button Grid.Column="2"
+                                Content="⟳  Refresh"
+                                Style="{StaticResource GhostBtn}"
+                                Padding="10,4"
+                                Margin="0,0,6,0"
+                                Click="BtnRefreshHistory_Click"/>
+
+                        <Button Grid.Column="3"
+                                Content="🗑  Clear All"
+                                Style="{StaticResource GhostBtn}"
+                                Padding="10,4"
+                                Click="BtnClearHistory_Click"/>
+                    </Grid>
+                </Border>
+
+                <!-- History list -->
+                <ListBox Grid.Row="1"
+                         x:Name="HistoryList"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="#CCCCCC"
+                         FontFamily="Segoe UI, Arial"
+                         FontSize="12"
+                         Padding="8,4"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ItemContainerStyle="{StaticResource HistoryItemStyle}"
+                         SelectionChanged="HistoryList_SelectionChanged">
+
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#141414"
+                                    CornerRadius="6"
+                                    BorderBrush="#2A2A2A"
+                                    BorderThickness="1"
+                                    Padding="12,8"
+                                    Margin="0,0,8,0"
+                                    Width="220">
+                                <StackPanel>
+                                    <!-- Operation name + success dot -->
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                        <Border Width="6" Height="6"
+                                                Background="#D72638"
+                                                CornerRadius="3"
+                                                VerticalAlignment="Center"
+                                                Margin="0,0,6,0"/>
+                                        <TextBlock Text="{Binding OperationName}"
+                                                   Foreground="#F0F0F0"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="12"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                    </StackPanel>
+                                    <!-- Result summary -->
+                                    <TextBlock Text="{Binding ResultSummary}"
+                                               Foreground="#888888"
+                                               FontSize="11"
+                                               FontFamily="Consolas"
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="0,0,0,4"/>
+                                    <!-- Timestamp -->
+                                    <TextBlock Text="{Binding Timestamp, StringFormat='HH:mm:ss  dd/MM/yyyy'}"
+                                               Foreground="#444444"
+                                               FontSize="10"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════ STATUS BAR ═══════════════════════════ -->
+        <Border Grid.Row="4"
+                Background="#080808"
+                BorderThickness="0,1,0,0"
+                BorderBrush="#1A1A1A">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Status indicator dot -->
+                <Border x:Name="StatusDot"
+                        Width="6" Height="6"
+                        Background="#D72638"
+                        CornerRadius="3"
+                        VerticalAlignment="Center"
+                        Margin="0,0,8,0"/>
+
+                <TextBlock x:Name="StatusText"
+                           Grid.Column="1"
+                           Text="Ready"
+                           Foreground="#444444"
+                           FontSize="11"
+                           FontFamily="Segoe UI"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock Grid.Column="2"
+                           Text="Linear Algebra Solver  v1.0  ·  .NET 10  ·  WPF"
+                           Foreground="#2A2A2A"
+                           FontSize="10"
+                           FontFamily="Segoe UI"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

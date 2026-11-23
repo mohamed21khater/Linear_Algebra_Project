@@ -1,0 +1,12 @@
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\LinearAlgebra.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\LinearAlgebra.Domain.AssemblyInfoInputs.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\LinearAlgebra.Domain.AssemblyInfo.cs
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\LinearAlgebra.Domain.csproj.CoreCompileInputs.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\bin\Debug\net9.0\LinearAlgebra.Domain.deps.json
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\bin\Debug\net9.0\LinearAlgebra.Domain.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\bin\Debug\net9.0\LinearAlgebra.Domain.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\LinearAlgebra.Domain.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\refint\LinearAlgebra.Domain.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\LinearAlgebra.Domain.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\ref\LinearAlgebra.Domain.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Domain\obj\Debug\net9.0\LinearAl.402A1BD2.Up2Date

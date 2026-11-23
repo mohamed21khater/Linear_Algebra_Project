@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>LinearAlgebraSolver</AssemblyName>
+    <RootNamespace>LinearAlgebra.UI</RootNamespace>
+    <StartupObject>LinearAlgebra.UI.App</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinearAlgebra.Domain\LinearAlgebra.Domain.csproj" />
+    <ProjectReference Include="..\LinearAlgebra.Application\LinearAlgebra.Application.csproj" />
+    <ProjectReference Include="..\LinearAlgebra.Infrastructure\LinearAlgebra.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

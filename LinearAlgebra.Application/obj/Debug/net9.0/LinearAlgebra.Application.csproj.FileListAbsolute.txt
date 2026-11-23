@@ -1,0 +1,15 @@
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\bin\Debug\net9.0\LinearAlgebra.Application.deps.json
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\bin\Debug\net9.0\LinearAlgebra.Application.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\bin\Debug\net9.0\LinearAlgebra.Application.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\bin\Debug\net9.0\LinearAlgebra.Domain.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\bin\Debug\net9.0\LinearAlgebra.Domain.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\LinearAlgebra.Application.csproj.AssemblyReference.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\LinearAlgebra.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\LinearAlgebra.Application.AssemblyInfoInputs.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\LinearAlgebra.Application.AssemblyInfo.cs
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\LinearAlgebra.Application.csproj.CoreCompileInputs.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\LinearAl.94B97462.Up2Date
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\LinearAlgebra.Application.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\refint\LinearAlgebra.Application.dll
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\LinearAlgebra.Application.pdb
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.Application\obj\Debug\net9.0\ref\LinearAlgebra.Application.dll

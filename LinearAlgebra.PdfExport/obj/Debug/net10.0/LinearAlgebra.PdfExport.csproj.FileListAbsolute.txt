@@ -1,0 +1,5 @@
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.PdfExport\obj\Debug\net10.0\LinearAlgebra.PdfExport.csproj.AssemblyReference.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.PdfExport\obj\Debug\net10.0\LinearAlgebra.PdfExport.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.PdfExport\obj\Debug\net10.0\LinearAlgebra.PdfExport.AssemblyInfoInputs.cache
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.PdfExport\obj\Debug\net10.0\LinearAlgebra.PdfExport.AssemblyInfo.cs
+D:\Learning Programming\Linear_Algebra_Project\LinearAlgebra.PdfExport\obj\Debug\net10.0\LinearAlgebra.PdfExport.csproj.CoreCompileInputs.cache
