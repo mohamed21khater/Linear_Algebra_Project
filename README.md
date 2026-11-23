@@ -15,6 +15,8 @@ Step-by-Step Output: Displays intermediate transformations and row operations cl
 Persistent History: Saves operation history to disk (JsonHistoryRepository / TextHistoryRepository) with graceful fallback if a history file is corrupted.  
 ArchitectureThe solution is organized into 4 layers so domain logic has no dependency on UI or infrastructure: 
 Plaintext
+
+
 ┌─────────────────────────────────────────────┐
 │          UI Layer  (WPF)                    │
 │  MainWindow.xaml + MainWindow.xaml.cs       │
@@ -35,6 +37,8 @@ Plaintext
 │  Solvers         │   └──────────────────────┘
 │  Interfaces      │
 └──────────────────┘
+
+
 OOP & Design Patterns UsedEncapsulation & Abstraction: Private internal data in Matrix (Fraction[,]) exposed through indexers and row operations, paired with ISolver and IHistoryRepository interfaces. 
 Template Method (SolverBase):
 Centralizes common execution steps in Solve(Matrix) while delegating solver-specific logic to DoSolve(Matrix). 
